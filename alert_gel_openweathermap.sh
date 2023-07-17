@@ -6,9 +6,9 @@ tempAler=3 # alert in case of lower temp than tempAler
 APIKEY="put api key here"
 recipient=putyouremailhere@tata.net
 sender="From: YourName <YourName@pi.com>"
-LATLON="41.540970,1.96642"  # Update with the corrdinate you want
-LAT="41.540970"
-LON="1.96642"
+LAT="41.540970" # Update with the corrdinate you want
+LON="1.96642" # Update with the corrdinate you want
+units=metric
 weatherout="/tmp/weather.out"
 
 if [ "$1" != '' ] ; then
