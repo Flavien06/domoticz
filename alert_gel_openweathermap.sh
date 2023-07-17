@@ -7,21 +7,28 @@ APIKEY="put api key here"
 recipient=putyouremailhere@tata.net
 sender="From: YourName <YourName@pi.com>"
 LATLON="41.540970,1.96642"  # Update with the corrdinate you want
+LAT="41.540970"
+LON="1.96642"
+weatherout="/tmp/weather.out"
 
 if [ "$1" != '' ] ; then
  CITY=$1 
 fi
 
 kill -9 `ps -ef | grep gel | grep -v grep |grep -v $$ | awk '{print $2}'`
+# For information : Reverse geocoding
+# curl -f "http://api.openweathermap.org/geo/1.0/reverse?lat=$LAT&lon=$LON&limit=5&appid=$APIKEY"
+# For information : Coordinates by location name
+# curl -f "http://api.openweathermap.org/geo/1.0/direct?q=$CITY&limit=5&appid=$APIKEY"
 # Download forecass for next days
-curl -f "https://api.darksky.net/forecast/$APIKEY/$LATLON/?units=si" -o /tmp/weather.out
+curl -f "https://api.openweathermap.org/data/2.5/onecall?lat=$LAT&lon=$LON&appid=$APIKEY&units=$units" -o $weatherout
 
 
 echo "############       Risque de gel      ###############"
 echo "##########   "`date`"  ##########"
 
 echo " Temp mini dans les jours a venir : "
-tempsmini=`cat /tmp/weather.out  |sed -e 's/,/\n/g' |grep "temperatureMin" |grep -v "temperatureMinTime"|cut -d':' -f2|cut -d'.' -f1`
+tempsmini=`cat $weatherout |sed -e 's/,/\n/g' |grep '"min":' |cut -d':' -f2|cut -d'.' -f1`
 
 
 
